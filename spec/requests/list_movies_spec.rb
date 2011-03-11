@@ -59,7 +59,7 @@ describe 'List Movies' do
   end
 
   it 'should be filterable by a given time of day' do
-    desired_time_str = '2:30 pm'
+    desired_time_str = '2:30 PM'
     desired_time = Time.parse desired_time_str
 
     visit '/'

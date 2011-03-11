@@ -1,0 +1,8 @@
+%h1= @showtime.movie.title
+%h1= simple_time_format @showtime.playing_at.in_time_zone
+%h2= @showtime.theater.name
+
+= form_tag showtime_path(@showtime), :method => :post do
+  = hidden_field_tag 'id', :value => @showtime.id
+  = select_tag 'tickets_purchased', options_for_select( (1..10), [1])
+  = submit_tag 'Purchase Tickets'

@@ -3,3 +3,6 @@
 #
 # change this to the desired value
 CHEAP_TIX_AVAILABLE = 15
+
+# price of a regular ticket
+REGULAR_TICKET_PRICE = 10

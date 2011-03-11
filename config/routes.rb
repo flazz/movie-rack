@@ -1,6 +1,9 @@
 MovieRack::Application.routes.draw do
-  root :to => "listings#index"
-  resources :showtimes
+  root :to => "showtimes#index"
+  get ':id' => 'showtimes#show', :as => 'showtime'
+  post ':id' => 'showtimes#purchase', :as => 'showtime'
+
+  #resources :showtimes
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

@@ -1,24 +1,26 @@
 describe 'Purchasing Tickets' do
 
-  let :showtime do
+  let! :showtime do
     movie = Movie.create :title => 'Napoleon Dynamite'
     movie.save
 
     theater = Theater.create :name => 'Gator Cinemas'
     theater.save
 
-    s = theater.showtimes.create(:movie => movie)
-    s.save
+    s = Showtime.create(:playing_at => Time.now, :movie => movie, :theater => theater)
+    s.save or raise "can't save showtime"
     s
   end
 
   it 'should allow a customer to purchase a ticket for a chosen movie and showtime' do
     visit '/'
-    find("a[href='#{showtime_path(showtime)}']").click_link
+    find("a[href='#{showtime_path(showtime)}']").click
 
     page.should have_content(showtime.theater.name)
     page.should have_content(showtime.movie.title)
-    page.should have_content(showtime.to_s)
+    puts showtime.playing_at.strftime('%I:%M %p')
+    puts showtime.playing_at.utc.strftime('%I:%M %p')
+    page.should have_content(showtime.playing_at.strftime('%I:%M %p'))
 
     click_button 'Purchase Tickets'
 
@@ -31,11 +33,11 @@ describe 'Purchasing Tickets' do
 
   it 'should allow the number of tickets to be chosen' do
     visit '/'
-    find("a[href='#{showtime_path(showtime)}']").click_link
+    find("a[href='#{showtime_path(showtime)}']").click
 
     page.should have_content(showtime.theater.name)
     page.should have_content(showtime.movie.title)
-    page.should have_content(showtime.to_s)
+    page.should have_content(showtime.playing_at.strftime('%I:%M %p'))
     select '3', :from => 'Tickets'
 
     click_button 'Purchase Tickets'
@@ -54,11 +56,11 @@ describe 'Purchasing Tickets' do
     showtime.save
 
     visit '/'
-    find("a[href='#{showtime_path(showtime)}']").click_link
+    find("a[href='#{showtime_path(showtime)}']").click
 
     page.should have_content(showtime.theater.name)
     page.should have_content(showtime.movie.title)
-    page.should have_content(showtime.to_s)
+    page.should have_content(showtime.playing_at.strftime('%I:%M %p'))
     select want_to_by.to_s, :from => 'Tickets'
 
     click_button 'Purchase Tickets'
@@ -81,7 +83,7 @@ describe 'Purchasing Tickets' do
     showtime.save
 
     visit '/'
-    find("a[href='#{showtime_path(showtime)}']").click_link
+    find("a[href='#{showtime_path(showtime)}']").click
 
     page.should have_content("Cheap seats are available, 50% off regular price!")
     page.should have_content(showtime.theater.name)

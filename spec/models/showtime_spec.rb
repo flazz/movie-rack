@@ -46,19 +46,7 @@ describe Showtime, '#listings' do
   end
 
   let :desired_time do
-    Time.parse '12:10 pm'
-  end
-
-  let :showtimes do
-
-    Showtime.create([
-      { :playing_at => (desired_time - 1.hour), :movie => movie, :theater => theater},
-      { :playing_at => (desired_time - 10.minutes), :movie => movie, :theater => theater},
-      { :playing_at => (desired_time + 1.minute), :movie => movie, :theater => theater},
-      { :playing_at => (desired_time + 14.minutes), :movie => movie, :theater => theater},
-      { :playing_at => (desired_time + 40.minutes), :movie => movie, :theater => theater}
-    ])
-
+    Time.parse '3:10 pm'
   end
 
   it 'should return times for the theater' do
@@ -95,12 +83,17 @@ describe Showtime, '#listings' do
   end
 
   it 'should return only showtimes within a 20 minute window of the given time' do
-    total_showings =  showtimes.size
+
+    [-90, -21, -10, 1, 14, 21, 45].each do |n|
+      time = desired_time + n.minutes
+      Showtime.create :playing_at => time, :movie => movie, :theater => theater
+    end
+
     times = Showtime.listings(:for_movie => movie,
                               :at_theater => theater,
                               :around_time => desired_time)
 
-    times.size.should == total_showings - 2
+    times.size.should == 3
 
     times.each do |s|
       s.playing_at.should be_within(20.minutes).of(desired_time)

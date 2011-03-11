@@ -1,0 +1,17 @@
+%h1= @showtime.movie.title
+
+%h2
+  = simple_time_format @showtime.playing_at
+  @
+  = @showtime.theater.name
+
+.tickets
+  regular tickets:
+  = @tickets_purchased
+
+.total
+  total:
+  = number_to_currency @total
+
+.instructions
+  This is your proof, please print
