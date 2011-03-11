@@ -1,5 +1,7 @@
 MovieRack::Application.routes.draw do
   root :to => "listings#index"
+  resources :showtimes
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
