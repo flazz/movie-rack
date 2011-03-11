@@ -7,7 +7,7 @@ describe 'Purchasing Tickets' do
     theater = Theater.create :name => 'Gator Cinemas'
     theater.save
 
-    s = Showtime.create(:playing_at => Time.now, :movie => movie, :theater => theater)
+    s = Showtime.create(:playing_at => Time.now, :movie => movie, :theater => theater, :available_tickets => 30)
     s.save or raise "can't save showtime"
     s
   end

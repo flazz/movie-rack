@@ -17,7 +17,7 @@ describe 'List Movies' do
     Theater.all.each do |t|
       Movie.all.each do |m|
         time = Time.now + rand(70).minutes
-        Showtime.create :playing_at => time, :movie => m, :theater => t
+        Showtime.create :playing_at => time, :movie => m, :theater => t, :available_tickets => 30
       end
     end
 

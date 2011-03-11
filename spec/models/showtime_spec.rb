@@ -7,6 +7,7 @@ describe Showtime do
     movie = Movie.create :title => 'Bambi'
     Showtime.new(:playing_at => Time.now,
                  :movie => movie,
+                 :available_tickets => 30,
                  :theater => theater)
   end
 
@@ -19,6 +20,12 @@ describe Showtime do
     showtime.playing_at = nil
     showtime.should_not be_valid
     showtime.errors[:playing_at].should include("can't be blank")
+  end
+
+  it 'should be invalid without available_tickets' do
+    showtime.available_tickets = nil
+    showtime.should_not be_valid
+    showtime.errors[:available_tickets].should include("can't be blank")
   end
 
   it 'should be invalid without a movie' do
@@ -86,7 +93,7 @@ describe Showtime, '#listings' do
 
     [-90, -21, -10, 1, 14, 21, 45].each do |n|
       time = desired_time + n.minutes
-      Showtime.create :playing_at => time, :movie => movie, :theater => theater
+      Showtime.create :playing_at => time, :movie => movie, :theater => theater, :available_tickets => 30
     end
 
     times = Showtime.listings(:for_movie => movie,
