@@ -4,6 +4,7 @@ gem 'rails', '3.0.3'
 gem 'sqlite3-ruby', :require => 'sqlite3'
 
 group :development, :test do
-	gem 'rspec'
-	gem 'rspec-rails'
+  gem 'rspec'
+  gem 'rspec-rails'
+  gem 'capybara'
 end
