@@ -18,8 +18,6 @@ describe 'Purchasing Tickets' do
 
     page.should have_content(showtime.theater.name)
     page.should have_content(showtime.movie.title)
-    puts showtime.playing_at.strftime('%I:%M %p')
-    puts showtime.playing_at.utc.strftime('%I:%M %p')
     page.should have_content(showtime.playing_at.strftime('%I:%M %p'))
 
     click_button 'Purchase Tickets'
@@ -44,8 +42,8 @@ describe 'Purchasing Tickets' do
 
     page.should have_content(showtime.theater.name)
     page.should have_content(showtime.movie.title)
-    page.should have_content("regular tickets: 2")
-    page.should have_content("$20.00")
+    page.should have_content("regular tickets: 3")
+    page.should have_content("$30.00")
     page.should have_content("This is your proof, please print")
   end
 
