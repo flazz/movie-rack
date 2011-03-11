@@ -5,7 +5,7 @@ module ShowtimesHelper
   end
 
   def showtime_link s
-    link_to simple_time_format(s.playing_at.in_time_zone), showtime_path(s)
+    link_to simple_time_format(s.playing_at.localtime), showtime_path(s)
   end
 
   def select_half_hours name
