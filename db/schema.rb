@@ -21,6 +21,9 @@ ActiveRecord::Schema.define(:version => 20110311044924) do
 
   create_table "showtimes", :force => true do |t|
     t.integer  "available_tickets"
+    t.time     "playing_at"
+    t.integer  "movie_id"
+    t.integer  "theater_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
