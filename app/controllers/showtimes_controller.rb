@@ -17,7 +17,14 @@ class ShowtimesController < ApplicationController
 
   def show
     @showtime = Showtime.find params[:id]
+
+    if @showtime.available_tickets <= CHEAP_TIX_AVAILABLE
+      flash[:notice] = 'Cheap seats are available, 50% off regular price!'
+    end
+
   end
+
+  verify :params => 'tickets_purchased', :only => :purchase
 
   def purchase
     @showtime = Showtime.find params[:id]
@@ -33,7 +40,19 @@ class ShowtimesController < ApplicationController
       redirect_to :back, :alert => alert_msg and return
     end
 
-    @total = @tickets_purchased * REGULAR_TICKET_PRICE
+    @total = if cheap_tickets_available?
+               @tickets_purchased * (REGULAR_TICKET_PRICE / 2.0)
+             else
+               @tickets_purchased * REGULAR_TICKET_PRICE
+             end
+
+    @cheaped_out = cheap_tickets_available?
+  end
+
+  protected
+
+  def cheap_tickets_available?
+    @showtime.available_tickets <= CHEAP_TIX_AVAILABLE
   end
 
 end

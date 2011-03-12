@@ -64,14 +64,14 @@ describe 'Purchasing Tickets' do
     click_button 'Purchase Tickets'
 
     within '.alert' do
-      page.should have_content("#{want_to_by} tickets are not avaiable, only #{left_over}")
+      page.should have_content("#{want_to_by} tickets are not available, only #{left_over}")
     end
 
     select left_over.to_s, :from => 'Tickets'
     click_button 'Purchase Tickets'
     page.should have_content(showtime.theater.name)
     page.should have_content(showtime.movie.title)
-    page.should have_content("regular tickets: #{left_over}")
+    page.should have_content("cheap tickets: #{left_over}")
     page.should have_content("$25.00")
     page.should have_content("This is your proof, please print")
   end
@@ -83,10 +83,13 @@ describe 'Purchasing Tickets' do
     visit '/'
     find("a[href='#{showtime_path(showtime)}']").click
 
-    page.should have_content("Cheap seats are available, 50% off regular price!")
+    within '.notice' do
+      page.should have_content("Cheap seats are available, 50% off regular price!")
+    end
+
     page.should have_content(showtime.theater.name)
     page.should have_content(showtime.movie.title)
-    page.should have_content(showtime.to_s)
+    page.should have_content(showtime.playing_at.strftime('%I:%M %p'))
 
     click_button 'Purchase Tickets'
 

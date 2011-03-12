@@ -21,16 +21,14 @@ Movie.create(
     {:title => 'The Cannonball Run', :tagline => "A wide variety of eccentric competitors participate in a wild and illegal cross-country car race"}
 ])
 
-
-
 Theater.all.each do |t|
 
   Movie.all.each do |m|
-    time = Time.now - 1.hours + rand(20).minutes
+    time = Time.now - 30.minutes
 
     14.times do
       time += rand(15).minutes
-      s = Showtime.create :playing_at => time, :movie => m, :theater => t
+      s = Showtime.create :playing_at => time, :movie => m, :theater => t, :available_tickets => 30
       s.save
       time += 30.minutes
     end

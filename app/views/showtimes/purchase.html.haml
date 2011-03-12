@@ -6,7 +6,11 @@
   = @showtime.theater.name
 
 .tickets
-  regular tickets:
+  - unless @cheaped_out
+    regular tickets:
+  - else
+    cheap tickets:
+
   = @tickets_purchased
 
 .total
