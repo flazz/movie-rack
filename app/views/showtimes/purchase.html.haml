@@ -1,11 +1,12 @@
 %h1= @showtime.movie.title
 
 %h2
-  = simple_time_format @showtime.playing_at
+  = simple_time_format @showtime.playing_at.localtime
   @
   = @showtime.theater.name
 
 .tickets
+
   - unless @cheaped_out
     regular tickets:
   - else
@@ -18,4 +19,8 @@
   = number_to_currency @total
 
 .instructions
-  This is your proof, please print
+  This is your receipt, please print.
+
+%hr
+
+= link_to 'back to showtimes', root_path

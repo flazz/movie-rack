@@ -1,6 +1,9 @@
 %h1= @showtime.movie.title
-%h1= simple_time_format @showtime.playing_at.localtime
-%h2= @showtime.theater.name
+
+%h2
+  = simple_time_format @showtime.playing_at.localtime
+  @
+  = @showtime.theater.name
 
 = form_tag showtime_path(@showtime), :method => :post do
   = hidden_field_tag 'id', :value => @showtime.id

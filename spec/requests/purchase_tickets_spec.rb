@@ -26,7 +26,7 @@ describe 'Purchasing Tickets' do
     page.should have_content(showtime.movie.title)
     page.should have_content("regular tickets: 1")
     page.should have_content("$10.00")
-    page.should have_content("This is your proof, please print")
+    page.should have_content("This is your receipt, please print")
   end
 
   it 'should allow the number of tickets to be chosen' do
@@ -44,7 +44,7 @@ describe 'Purchasing Tickets' do
     page.should have_content(showtime.movie.title)
     page.should have_content("regular tickets: 3")
     page.should have_content("$30.00")
-    page.should have_content("This is your proof, please print")
+    page.should have_content("This is your receipt, please print")
   end
 
   it 'should inform the user when the number of tickets exceeds the number of avaiable seats' do
@@ -73,7 +73,7 @@ describe 'Purchasing Tickets' do
     page.should have_content(showtime.movie.title)
     page.should have_content("cheap tickets: #{left_over}")
     page.should have_content("$25.00")
-    page.should have_content("This is your proof, please print")
+    page.should have_content("This is your receipt, please print")
   end
 
   it 'should sell cheap seats at a 50% discount after all regular seats are sold' do
@@ -97,7 +97,7 @@ describe 'Purchasing Tickets' do
     page.should have_content(showtime.movie.title)
     page.should have_content("cheap tickets: 1")
     page.should have_content("$5.00")
-    page.should have_content("This is your proof, please print")
+    page.should have_content("This is your receipt, please print")
   end
 
 end
