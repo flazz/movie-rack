@@ -18,7 +18,7 @@ describe 'Purchasing Tickets' do
 
     page.should have_content(showtime.theater.name)
     page.should have_content(showtime.movie.title)
-    page.should have_content(showtime.playing_at.strftime('%I:%M %p'))
+    page.should have_content(showtime.playing_at.localtime.strftime('%I:%M %p'))
 
     click_button 'Purchase Tickets'
 
@@ -35,7 +35,7 @@ describe 'Purchasing Tickets' do
 
     page.should have_content(showtime.theater.name)
     page.should have_content(showtime.movie.title)
-    page.should have_content(showtime.playing_at.strftime('%I:%M %p'))
+    page.should have_content(showtime.playing_at.localtime.strftime('%I:%M %p'))
     select '3', :from => 'Tickets'
 
     click_button 'Purchase Tickets'
@@ -58,7 +58,7 @@ describe 'Purchasing Tickets' do
 
     page.should have_content(showtime.theater.name)
     page.should have_content(showtime.movie.title)
-    page.should have_content(showtime.playing_at.strftime('%I:%M %p'))
+    page.should have_content(showtime.playing_at.localtime.strftime('%I:%M %p'))
     select want_to_by.to_s, :from => 'Tickets'
 
     click_button 'Purchase Tickets'
@@ -97,7 +97,7 @@ describe 'Purchasing Tickets' do
 
     page.should have_content(showtime.theater.name)
     page.should have_content(showtime.movie.title)
-    page.should have_content(showtime.playing_at.strftime('%I:%M %p'))
+    page.should have_content(showtime.playing_at.localtime.strftime('%I:%M %p'))
 
     click_button 'Purchase Tickets'
 
