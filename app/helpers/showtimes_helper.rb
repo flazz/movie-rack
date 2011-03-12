@@ -8,7 +8,7 @@ module ShowtimesHelper
     link_to simple_time_format(s.playing_at.localtime), showtime_path(s)
   end
 
-  def select_half_hours name
+  def select_half_hours name, selected=nil
 
     half_hours = (0..23).inject(ActiveSupport::OrderedHash.new) do |acc, n|
       on_the_hour = Time.now.midnight + n.hours
@@ -22,7 +22,11 @@ module ShowtimesHelper
       acc
     end
 
-    select_tag name, options_for_select(half_hours)
+    if selected
+      select_tag name, options_for_select(half_hours,selected.xmlschema)
+    else
+      select_tag name, options_for_select(half_hours)
+    end
   end
 
 end

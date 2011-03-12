@@ -1,14 +1,20 @@
 = form_tag root_path, :method => :get do
-  = select_half_hours 'specific_time'
+  = select_half_hours 'specific_time', @specific_time
   = submit_tag 'filter'
 
+= link_to 'all showtimes', root_path
+
 - @theaters.each do |t|
+
   .theater
     .name= t.name
+
     - t.movies.each do |m|
       .movie
+
         .title= m.title
         .tagline= m.tagline
+
         - if @specific_time
           - Showtime.listings(:around_time => @specific_time, :for_movie => m, :at_theater => t).each do |s|
             .showtime= showtime_link s
