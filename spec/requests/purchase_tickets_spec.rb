@@ -77,10 +77,18 @@ describe 'Purchasing Tickets' do
   end
 
   it 'should sell cheap seats at a 50% discount after all regular seats are sold' do
-    showtime.available_tickets = CHEAP_TIX_AVAILABLE
-    showtime.save
-
     visit '/'
+
+    2.times do
+      find("a[href='#{showtime_path(showtime)}']").click
+      page.should have_no_content("Cheap seats are available, 50% off regular price!")
+      select '10', :from => 'Tickets'
+      click_button 'Purchase Tickets'
+      page.should have_content("regular tickets: 10")
+      page.should have_content("$100.00")
+      click_link 'back to showtimes'
+    end
+
     find("a[href='#{showtime_path(showtime)}']").click
 
     within '.notice' do

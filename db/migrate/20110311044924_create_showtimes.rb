@@ -5,6 +5,7 @@ class CreateShowtimes < ActiveRecord::Migration
       t.timestamp :playing_at
       t.references :movie
       t.references :theater
+
       t.timestamps
     end
   end

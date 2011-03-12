@@ -27,32 +27,35 @@ class ShowtimesController < ApplicationController
   verify :params => 'tickets_purchased', :only => :purchase
 
   def purchase
-    @showtime = Showtime.find params[:id]
+    showtime = Showtime.find params[:id]
 
     unless params[:tickets_purchased] =~ /^\d+$/
       render :nothing => true, :status => '400' and return
     end
 
-    @tickets_purchased = params[:tickets_purchased].to_i
+    tickets_purchased = params[:tickets_purchased].to_i
 
-    if @showtime.available_tickets < @tickets_purchased
-      alert_msg = "#{@tickets_purchased} tickets are not available, only #{@showtime.available_tickets}"
+    if showtime.available_tickets < tickets_purchased
+      alert_msg = "#{tickets_purchased} tickets are not available, only #{showtime.available_tickets}"
       redirect_to :back, :alert => alert_msg and return
     end
 
-    @total = if cheap_tickets_available?
-               @tickets_purchased * (REGULAR_TICKET_PRICE / 2.0)
-             else
-               @tickets_purchased * REGULAR_TICKET_PRICE
-             end
+    receipt = Receipt.new :showtime => showtime
+    receipt.is_cheap = showtime.available_tickets <= CHEAP_TIX_AVAILABLE
+    unit_price = if receipt.is_cheap
+                   REGULAR_TICKET_PRICE / 2.0
+                 else
+                   REGULAR_TICKET_PRICE
+                 end
 
-    @cheaped_out = cheap_tickets_available?
-  end
+    receipt.total = tickets_purchased * unit_price
+    receipt.tickets = tickets_purchased
+    receipt.save or raise "can't save receipt"
 
-  protected
+    showtime.available_tickets -= tickets_purchased
+    showtime.save or raise "can't save showtime"
 
-  def cheap_tickets_available?
-    @showtime.available_tickets <= CHEAP_TIX_AVAILABLE
+    redirect_to receipt_path(receipt), :notice => 'Thank you for your purchase, enjoy the show'
   end
 
 end

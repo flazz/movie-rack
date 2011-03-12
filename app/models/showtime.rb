@@ -1,11 +1,14 @@
 class Showtime < ActiveRecord::Base
   validates_presence_of :playing_at
+  validates_presence_of :available_tickets
+
   validates_presence_of :movie_id
   validates_presence_of :theater_id
-  validates_presence_of :available_tickets
 
   belongs_to :movie
   belongs_to :theater
+
+  has_many :receipts
 
   def self.listings options={}
     t = options[:at_theater] or raise ArgumentError, 'option :at_theater is required'

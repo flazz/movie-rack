@@ -1,4 +1,6 @@
 MovieRack::Application.routes.draw do
+  resources :receipts
+
   root :to => "showtimes#index"
   get ':id' => 'showtimes#show', :as => 'showtime'
   post ':id' => 'showtimes#purchase', :as => 'showtime'

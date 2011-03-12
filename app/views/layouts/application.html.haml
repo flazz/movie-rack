@@ -14,3 +14,7 @@
     .notice.alert= flash.alert
 
   = yield
+
+- unless controller.controller_name == 'showtimes' and controller.action_name == 'index'
+  %hr
+  = link_to 'back to showtimes', root_path

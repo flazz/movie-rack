@@ -1,0 +1,22 @@
+%h1= @receipt.showtime.movie.title
+
+%h2
+  = simple_time_format @receipt.showtime.playing_at.localtime
+  @
+  = @receipt.showtime.theater.name
+
+.tickets
+
+  - unless @receipt.is_cheap
+    regular tickets:
+  - else
+    cheap tickets:
+
+  = @receipt.tickets
+
+.total
+  total:
+  = number_to_currency @receipt.total
+
+.instructions
+  This is your receipt, please print.
