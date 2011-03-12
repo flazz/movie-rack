@@ -16,7 +16,7 @@ describe 'List Movies' do
     # and a few showtimes
     Theater.all.each do |t|
       Movie.all.each do |m|
-        time = Time.now + rand(70).minutes
+        time = Time.parse('2:30 PM') + rand(70).minutes
         Showtime.create :playing_at => time, :movie => m, :theater => t, :available_tickets => 30
       end
     end
@@ -58,13 +58,31 @@ describe 'List Movies' do
 
   end
 
+end
+
+describe 'filtering showtimes' do
+
   it 'should be filterable by a given time of day' do
+    movie = Movie.create :title => 'Napoleon Dynamite'
+    movie.should be_persisted
+
+    theater = Theater.create :name => 'Gator Cinemas'
+    theater.should be_persisted
+
     desired_time_str = '2:30 PM'
-    desired_time = Time.parse desired_time_str
+    desired_time = Time.parse(desired_time_str)
+
+    [-90, -21, -10, 1, 14, 21, 45].each do |n|
+      time = desired_time + n.minutes
+      st = Showtime.create :playing_at => time, :movie => movie, :theater => theater, :available_tickets => 30
+      pp st.playing_at
+      st.should be_persisted
+    end
 
     visit '/'
     select desired_time_str
     click_button 'filter'
+    all('.showtime a').should_not be_empty
 
     all('.showtime a').each do |a|
       show_time = Time.parse a.text
