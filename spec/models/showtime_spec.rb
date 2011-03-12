@@ -90,7 +90,7 @@ describe Showtime, '#listings' do
   end
 
   it 'should return only showtimes within a 20 minute window of the given time' do
-    pending 'AR is reading timestamps wrong, works everywhere else'
+    #pending 'AR is reading timestamps wrong, works everywhere else'
 
     [-90, -21, -10, 1, 14, 21, 45].each do |n|
       time = desired_time + n.minutes

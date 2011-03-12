@@ -69,19 +69,19 @@ describe 'filtering showtimes' do
     theater = Theater.create :name => 'Gator Cinemas'
     theater.should be_persisted
 
-    desired_time_str = '2:30 PM'
+    desired_time_str = '12:00 PM'
     desired_time = Time.parse(desired_time_str)
 
-    [-90, -21, -10, 1, 14, 21, 45].each do |n|
+    [-21, -4, 0, 19, 21].each do |n|
       time = desired_time + n.minutes
       st = Showtime.create :playing_at => time, :movie => movie, :theater => theater, :available_tickets => 30
-      pp st.playing_at
       st.should be_persisted
     end
 
     visit '/'
     select desired_time_str
     click_button 'filter'
+    all('.showtime a').size.should == 3
     all('.showtime a').should_not be_empty
 
     all('.showtime a').each do |a|

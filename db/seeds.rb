@@ -30,7 +30,7 @@ Theater.all.each do |t|
       time += rand(15).minutes
       s = Showtime.create :playing_at => time, :movie => m, :theater => t, :available_tickets => 30
       s.save
-      time += 30.minutes
+      time += 10.minutes
     end
 
   end
